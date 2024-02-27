@@ -37,6 +37,26 @@ public class IMTLogFactory {
     }
 
     /**
+     * 通知申购结果
+     *
+     * @param operLog 操作日志信息
+     */
+    public  static void notifyApplyResult(IUser iUser, String logContent) {
+        ILog operLog = new ILog();
+        operLog.setOperTime(new Date());
+        if (logContent.contains("失败")) {
+            //失败
+            operLog.setStatus(1);
+        } else {
+            operLog.setStatus(0);
+        }
+        operLog.setMobile(iUser.getMobile());
+        operLog.setCreateUser(iUser.getCreateUser());
+        operLog.setLogContent(logContent);
+        AsyncManager.me().execute(recordOper(operLog));
+    }
+
+    /**
      * 操作日志记录
      *
      * @param operLog 操作日志信息

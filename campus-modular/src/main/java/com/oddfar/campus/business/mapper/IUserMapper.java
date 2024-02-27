@@ -66,6 +66,12 @@ public interface IUserMapper extends BaseMapperX<IUser> {
         );
     }
 
+    default IUser getUser(String mobile) {
+        return selectOne(new LambdaQueryWrapperX<IUser>()
+                        .eq(IUser::getMobile, mobile)
+        );
+    }
+
     @Update("UPDATE i_user SET `minute` = (SELECT FLOOR(RAND() * 50 + 1)) WHERE random_minute = \"0\"")
     void updateUserMinuteBatch();
 

@@ -103,4 +103,14 @@ public class IUserServiceImpl implements IUserService {
     public int deleteIUser(Long[] iUserId) {
         return iUserMapper.deleteIUser(iUserId);
     }
+
+
+    /**
+     * 通过手机号查询用户
+     *
+     * @return
+     */
+    public IUser getUser(String mobile) {
+        return iUserMapper.getUser(mobile);
+    }
 }

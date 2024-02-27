@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import com.oddfar.campus.business.api.PushPlusApi;
 
 import javax.annotation.PostConstruct;
 import java.security.MessageDigest;
@@ -542,6 +543,11 @@ public class IMTServiceImpl implements IMTService {
                     if (item.getInteger("status") == 2 && DateUtil.between(item.getDate("reservationTime"), new Date(), DateUnit.HOUR) < 24) {
                         String logContent = DateUtil.formatDate(item.getDate("reservationTime")) + " 申购" + item.getString("itemName") + "成功";
                         IMTLogFactory.reservation(iUser, logContent);
+                        //推送
+                        IUser owner = iUserService.getUser("15868145239");
+                        String token = owner.getPushPlusToken();
+                        String content = String.format("%s（%s） 申购【%s】成功", iUser.getMobile().toString(), iUser.getRemark(), item.getString("itemName"));
+                        PushPlusApi.sendNotice(token,"申购成功",content,"txt");
                     }
                 }
             } catch (Exception e) {

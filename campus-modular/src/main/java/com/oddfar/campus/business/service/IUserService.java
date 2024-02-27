@@ -63,4 +63,11 @@ public interface IUserService {
      * @return
      */
     int deleteIUser(Long[] iUserId);
+
+    /**
+     * 通过手机号查询用户
+     *
+     * @return
+     */
+    IUser getUser(String mobile);
 }
